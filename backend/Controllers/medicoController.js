@@ -37,6 +37,13 @@ const registrar = async (req, res) => {
     }
 };
 
+
+const perfil = (req, res) => {
+    const { medico } = req;
+    res.json(medico);
+};
+
+
 const autenticar = async (req, res) => {
     const { email, password } = req.body;
 
@@ -68,5 +75,6 @@ const autenticar = async (req, res) => {
 
 export {
     registrar,
-    autenticar
+    autenticar,
+    perfil
 };
