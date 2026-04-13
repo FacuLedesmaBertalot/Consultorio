@@ -35,7 +35,7 @@ const medicosSchema = mongoose.Schema({
     },
     token: {
         type: String,
-        trim: true
+        default: generarId
     },
     confirmado: {
         type: Boolean,
@@ -46,10 +46,21 @@ const medicosSchema = mongoose.Schema({
     timestamps: true
 });
 
-// Comprobar password
+
+// Middlewate para hashear la contraseña antes de guardar
+medicosSchema.pre('save', async function(next) {
+
+    if (!this.isModified('password')) {
+        return next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+})
+
+// Método para comprobar el password en el Login
 medicosSchema.methods.comprobarPassword = async function(passwordFormulario) {
     return await bcrypt.compare(passwordFormulario, this.password);
-}
+};
 
 const Medico = mongoose.model("Medico", medicosSchema);
 
