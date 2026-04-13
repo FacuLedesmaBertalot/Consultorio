@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import medicoRoutes from './routes/medicoRoutes.js';
+import pacientesRoutes from './routes/pacientesRoutes.js';
 
 const app = express();
 
@@ -33,8 +34,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // --- RUTAS ---
-
 app.use('/api/medicos', medicoRoutes);
+app.use('/api/pacientes', pacientesRoutes);
 
 // Definir el puerto (Hostinger asigna uno automáticamente, local usa 4000)
 const PORT = process.env.PORT || 4000;
