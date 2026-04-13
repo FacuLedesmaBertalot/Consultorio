@@ -1,4 +1,5 @@
 import Medico from "../Models/Medico.js";
+import generarJWT from '../helpers/generarJWT.js';
 
 const registrar = async (req, res) => {
     const {email, matricula} = req.body;
