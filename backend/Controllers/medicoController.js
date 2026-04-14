@@ -164,6 +164,11 @@ const nuevoPassword = async (req, res) => {
     }
 };
 
+const obtenerMedicosPublicos = async (req, res) => {
+    const medicos = await Medico.find({ confirmado: true }).select('_id nombre especialidad');
+    res.json(medicos);
+}
+
 
 export {
     registrar,
@@ -172,5 +177,6 @@ export {
     confirmar,
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    obtenerMedicosPublicos
 };
