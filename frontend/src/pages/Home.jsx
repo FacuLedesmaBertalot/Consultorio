@@ -37,7 +37,7 @@ const Home = () => {
                     <img 
                         src="/dra.webp" 
                         alt="Doctora" 
-                        className="relative rounded-2xl shadow-xl w-full object-cover h-[450px] border-8 border-white"
+                        className="relative rounded-2xl shadow-xl w-full object-cover h-112.5 border-8 border-white"
                     />
             </div>
 
