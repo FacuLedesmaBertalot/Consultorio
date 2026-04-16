@@ -8,7 +8,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         
-        {/* Rutas con Nav y Footer */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
         </Route>
