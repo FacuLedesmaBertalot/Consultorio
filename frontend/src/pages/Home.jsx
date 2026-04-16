@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-
 const Home = () => {
   return (
     <div className='min-h-screen bg-slate-50'>
@@ -12,7 +11,7 @@ const Home = () => {
                     Cuidamos tu salud con <span className="text-sky-600">profesionalismo</span> y <span className="text-orange-500">calidez</span>
                 </h1>
                 <p className='text-lg text-slate-600 mt-8 leading-relaxed'>
-                    Reserva tu turno onlin en pocos pasos. Elegí tu especialista y el horario que mejor te convenga, sin esperas telefónicas.
+                    Reserva tu turno online en pocos pasos. Elegí tu especialista y el horario que mejor te convenga, sin esperas telefónicas.
                 </p>
 
                 <div className='mt-12 flex flex-col sm:flex-row gap-4'>
@@ -29,17 +28,18 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="lg:w-1/2 mt-16 lg:mt-0 relative">
-                <div className="absolute -top-4 -left-4 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob">
-                </div>
-                <div className="absolute -bottom-8 -right-4 w-72 h-72 bg-sky-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000">
-                </div>
-                    <img 
-                        src="/dra.webp" 
-                        alt="Doctora" 
-                        className="relative rounded-2xl shadow-xl w-full object-cover h-112.5 border-8 border-white"
-                    />
-            </div>
+<div className="lg:w-1/2 mt-12 lg:mt-0 relative w-full">
+    
+    <div className="hidden md:block absolute -top-4 -left-4 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+    <div className="hidden md:block absolute -bottom-8 -right-4 w-72 h-72 bg-sky-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
+    
+    <img 
+        src="/dra.jpg" 
+        alt="Doctora" 
+        className="relative rounded-3xl shadow-xl w-full object-cover h-64 md:h-96 lg:h-125 border-4 md:border-8 border-white"
+    />
+
+</div>
 
         </main>
 
