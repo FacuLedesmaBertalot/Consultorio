@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className='min-h-screen bg-slate-50'>
 
-        <main className='container mx-auto mt-16 p-5 lg:flex items-center gap-16'>
+        <main className='container mx-auto mt-auto p-5 lg:flex items-center gap-16'>
 
             <div className='lg:w-1/2'>
                 <h1 className='text-5xl md:text-6xl font-extrabold text-slate-800 leading-tight'>
