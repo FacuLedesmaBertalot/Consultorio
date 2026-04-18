@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
-        <footer className="bg-slate-900 text-slate-300 py-12">
-            <div className="container mx-auto px-10 grid md:grid-cols-3 gap-10">
+        <footer className="bg-slate-900 text-slate-300 py-6">
+            <div className="container mx-auto px-6 grid md:grid-cols-3 gap-20">
                 <div>
                     <h3 className="text-white text-xl font-bold mb-4">
                         Vitae<span className="text-orange-500">Salud</span>
