@@ -9,7 +9,8 @@ import {
     olvidePassword, 
     comprobarToken, 
     nuevoPassword,
-    obtenerMedicosPublicos
+    obtenerMedicosPublicos,
+    obtenerMedicosPorEspecialidad
 } from '../Controllers/medicoController.js';
 
 
@@ -19,6 +20,7 @@ const router = express.Router();
 router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/publicos', obtenerMedicosPublicos);
+router.get('/especialidad/:especialidad', obtenerMedicosPorEspecialidad);
 
 // Rutas para el manejo de correos y contraseñas
 router.get('/confirmar/:token', confirmar);
