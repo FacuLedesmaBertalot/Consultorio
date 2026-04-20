@@ -164,9 +164,27 @@ const nuevoPassword = async (req, res) => {
     }
 };
 
+
 const obtenerMedicosPublicos = async (req, res) => {
     const medicos = await Medico.find({ confirmado: true }).select('_id nombre especialidad');
     res.json(medicos);
+}
+
+
+const obtenerMedicosPorEspecialidad = async (req, res) => {
+    const { especialidad } = req.params;
+
+    try {
+        const medicos = await Medico.find({
+            confirmado: true,
+            especialidad: new RegExp('^' + especialidad + '$', 'i')
+        }).select('_id nombre');
+
+        res.json(medicos);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Hubo un error al obtener los médicos' });
+    }
 }
 
 
@@ -178,5 +196,6 @@ export {
     olvidePassword,
     comprobarToken,
     nuevoPassword,
-    obtenerMedicosPublicos
+    obtenerMedicosPublicos,
+    obtenerMedicosPorEspecialidad
 };
