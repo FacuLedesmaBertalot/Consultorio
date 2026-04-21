@@ -57,32 +57,81 @@ const useAgendar = () => {
         consultarAPI();
     }, [especialidad]);
 
-    const handleSubmit = e => {
+    useEffect(() => {
+        if (profesional && fecha) {
+            const consultarDisponibilidad = async () => {
+                try {
+                    const respuesta = await fetch(`http://localhost:4000/api/turnos/ocupados/${profesional}/${fecha}`);
+                    const resultado = await respuesta.json();
+                    setHorariosOcupados(resultado);
+                } catch (error) {
+                    console.log("Error buscando disponibilidad", error);
+                }
+            };
+            consultarDisponibilidad();
+        } else {
+            setHorariosOcupados([]);
+        }
+    }, [profesional, fecha]);
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
+        // Validaciones
         if ([especialidad, profesional, fecha, horario, nombre, dni, email].includes('')) {
             setError('Todos los campos son obligatorios');
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if(!emailRegex.test(email)) {
-                setError('El formato del email no es válido');
-                return;
+        if(!emailRegex.test(email)) {
+            setError('El formato del email no es válido');
+            return;
         }
 
+        // Preparamos el envío
         setError('');
-        setEnviado(true);
-        
-        console.log("Enviando turno...", {
-            especialidad,
-            medicoId: profesional,
-            fecha,
-            horario,
-            paciente: { nombre, dni }
-        });
+        setCargando(true);
 
-        setTimeout(() => setEnviado(false), 4000);
+        try {
+            const datosTurno = {
+                medico: profesional,
+                fecha,
+                horario,
+                paciente: { nombre, dni, email }
+            };
+
+            const respuesta = await fetch('http://localhost:4000/api/turnos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosTurno)
+            });
+
+            const resultado = await respuesta.json();
+
+            // Evaluamos la respuesta del backend
+            if (respuesta.ok) {
+                setEnviado(true);
+                setEspecialidad('');
+                setProfesional('');
+                setFecha('');
+                setHorario('');
+                setNombre('');
+                setDni('');
+                setEmail('');
+                setHorariosOcupados([]);
+                setTimeout(() => setEnviado(false), 4000);
+            } else {
+                setError(resultado.msg || 'Error al guardar el turno');
+            }
+
+        } catch (error) {
+            console.log(error);
+            setError('Error de conexión con el servidor al guardar el turno.');
+        } finally {
+            setCargando(false);
+        }
     }
 
     return {
