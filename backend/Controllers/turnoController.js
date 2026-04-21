@@ -1,5 +1,5 @@
-import Turno from '../models/Turno.js';
-import Medico from '../models/Medico.js';
+import Turno from '../Models/Turno.js';
+import Medico from '../Models/Medico.js';
 import { emailNuevoTurno } from '../helpers/email.js';
 
 const obtenerHorariosOcupados = async (req, res) => {
