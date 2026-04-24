@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const useAgendar = () => {
 
@@ -8,8 +9,11 @@ const useAgendar = () => {
     '18:00', '19:00'
     ];
 
-    const [especialidad, setEspecialidad] = useState('');
-    const [profesional, setProfesional] = useState('');
+    const location = useLocation();
+    const datosPrevios = location.state || {};
+
+    const [especialidad, setEspecialidad] = useState(datosPrevios.especialidadPrevia || '');
+    const [profesional, setProfesional] = useState(datosPrevios.profesionalPrevio || '');
     const [fecha, setFecha] = useState('');
     const [horario, setHorario] = useState('');
     
@@ -36,7 +40,7 @@ const useAgendar = () => {
             setError('');
 
             try {
-                const url = `http://localhost:4000/api/medicos/especialidad/${especialidad}`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}/medicos/especialidad/${especialidad}`;
                 const respuesta = await fetch(url);
                 const resultado = await respuesta.json();
 
@@ -61,7 +65,7 @@ const useAgendar = () => {
         if (profesional && fecha) {
             const consultarDisponibilidad = async () => {
                 try {
-                    const respuesta = await fetch(`http://localhost:4000/api/turnos/ocupados/${profesional}/${fecha}`);
+                    const url = `${import.meta.env.VITE_BACKEND_URL}/turnos/ocupados/${profesional}/${fecha}`;
                     const resultado = await respuesta.json();
                     setHorariosOcupados(resultado);
                 } catch (error) {
@@ -102,13 +106,12 @@ const useAgendar = () => {
                 paciente: { nombre, dni, email }
             };
 
-            const respuesta = await fetch('http://localhost:4000/api/turnos', {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/turnos`;
+            const respuesta = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datosTurno)
             });
-
-            const resultado = await respuesta.json();
 
             // Evaluamos la respuesta del backend
             if (respuesta.ok) {
@@ -121,6 +124,9 @@ const useAgendar = () => {
                 setDni('');
                 setEmail('');
                 setHorariosOcupados([]);
+
+                window.history.replaceState({}, document.title);
+
                 setTimeout(() => setEnviado(false), 4000);
             } else {
                 setError(resultado.msg || 'Error al guardar el turno');
