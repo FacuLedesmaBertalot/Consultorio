@@ -1,5 +1,6 @@
 import express from 'express';
 import checkAuth from '../middleware/authMiddleware.js';
+import upload from '../middleware/subirImagen.js';
 
 import { 
     registrar, 
@@ -10,7 +11,8 @@ import {
     comprobarToken, 
     nuevoPassword,
     obtenerMedicosPublicos,
-    obtenerMedicosPorEspecialidad
+    obtenerMedicosPorEspecialidad,
+    actualizarPerfil
 } from '../Controllers/medicoController.js';
 
 
@@ -21,6 +23,7 @@ router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/publicos', obtenerMedicosPublicos);
 router.get('/especialidad/:especialidad', obtenerMedicosPorEspecialidad);
+router.post('/perfil/:id', upload.single('imagen'), actualizarPerfil);
 
 // Rutas para el manejo de correos y contraseñas
 router.get('/confirmar/:token', confirmar);
