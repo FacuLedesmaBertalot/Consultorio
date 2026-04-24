@@ -2,6 +2,7 @@ import Medico from "../Models/Medico.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from '../helpers/generarJWT.js';
 import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
+import { subirACloudinary } from '../middleware/subirImagen.js';
 
 const registrar = async (req, res) => {
     const {email, matricula} = req.body;
@@ -166,7 +167,7 @@ const nuevoPassword = async (req, res) => {
 
 
 const obtenerMedicosPublicos = async (req, res) => {
-    const medicos = await Medico.find({ confirmado: true }).select('_id nombre especialidad');
+    const medicos = await Medico.find({ confirmado: true }).select('_id nombre especialidad imagen');
     res.json(medicos);
 }
 
@@ -188,6 +189,33 @@ const obtenerMedicosPorEspecialidad = async (req, res) => {
 }
 
 
+const actualizarPerfil = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medico = await Medico.findById(id);
+        if (!medico) {
+            return res.status(404).json({ msg: "Médico no encontrado" });
+        }
+
+        if (req.file) {
+            const resultadoCloudinary = await subirACloudinary(req.file.buffer);
+            medico.imagen = resultadoCloudinary.secure_url;
+        }
+
+        const medicoActualizado = await medico.save();
+
+        res.json({
+            _id: medicoActualizado._id,
+            nombre: medicoActualizado.nombre,
+            imagen: medicoActualizado.imagen
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Hubo un error al actualizar el perfil" });}
+}
+
 export {
     registrar,
     autenticar,
@@ -197,5 +225,6 @@ export {
     comprobarToken,
     nuevoPassword,
     obtenerMedicosPublicos,
-    obtenerMedicosPorEspecialidad
+    obtenerMedicosPorEspecialidad,
+    actualizarPerfil
 };
