@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import generarId from '../helpers/generarId.js';
+import { subirACloudinary } from "../middleware/subirImagen.js";
 
 const medicosSchema = mongoose.Schema({
     nombre: {
@@ -33,6 +34,11 @@ const medicosSchema = mongoose.Schema({
         type: String,
         trim: true
     },
+    imagen: {
+        type: String,
+        trim: true,
+        default: null
+    },
     token: {
         type: String,
         default: generarId
@@ -47,11 +53,11 @@ const medicosSchema = mongoose.Schema({
 });
 
 
-// Middlewate para hashear la contraseña antes de guardar
-medicosSchema.pre('save', async function(next) {
+// Middleware para hashear la contraseña antes de guardar
+medicosSchema.pre('save', async function() {
 
     if (!this.isModified('password')) {
-        return next();
+        return;
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
