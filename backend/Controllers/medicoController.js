@@ -132,7 +132,7 @@ const olvidePassword = async (req, res) => {
 }
 
 const comprobarToken = async (req, res) => {
-    const { token } = req.paramsM
+    const { token } = req.params
     const tokenValido = await Medico.findOne({ token });
 
     if (tokenValido) {
@@ -198,6 +198,19 @@ const actualizarPerfil = async (req, res) => {
             return res.status(404).json({ msg: "Médico no encontrado" });
         }
 
+        medico.nombre = req.body.nombre || medico.nombre;
+        medico.telefono = req.body.telefono || medico.telefono;
+        medico.especialidad = req.body.especialidad || medico.especialidad;
+
+        if (req.body.email && req.body.email !== medico.email) {
+            const existeEmail = await Medico.findOne({ email: req.body.email });
+
+            if (existeEmail) {
+                return res.status(400).json({ msg: "Ese email ya está en uso por otro médico" });
+            }
+            medico.email = req.body.email;
+        }
+
         if (req.file) {
             const resultadoCloudinary = await subirACloudinary(req.file.buffer);
             medico.imagen = resultadoCloudinary.secure_url;
@@ -205,11 +218,7 @@ const actualizarPerfil = async (req, res) => {
 
         const medicoActualizado = await medico.save();
 
-        res.json({
-            _id: medicoActualizado._id,
-            nombre: medicoActualizado.nombre,
-            imagen: medicoActualizado.imagen
-        });
+        res.json(medicoActualizado);
 
     } catch (error) {
         console.log(error);

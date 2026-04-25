@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Registrar from './pages/Registrar';
 import Agendar from './pages/Agendar';
 import Especialistas from './pages/Especialistas';
+import EditarPerfil from './pages/EditarPerfil';
 
 function App() {
   return (
@@ -17,6 +19,9 @@ function App() {
         </Route>
 
         <Route path="/login" element={<Login />} />
+        <Route path="/registrar" element={<Registrar />} />
+
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
 
       </Routes>
     </BrowserRouter>
