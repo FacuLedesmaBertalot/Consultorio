@@ -6,6 +6,8 @@ import Registrar from './pages/Registrar';
 import Agendar from './pages/Agendar';
 import Especialistas from './pages/Especialistas';
 import EditarPerfil from './pages/EditarPerfil';
+import ConfirmarCuenta from './pages/ConfirmarCuenta';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
+        <Route path="/confirmar/:id" element={<ConfirmarCuenta /> } />
 
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 
