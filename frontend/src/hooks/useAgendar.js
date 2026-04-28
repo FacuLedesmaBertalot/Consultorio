@@ -66,6 +66,7 @@ const useAgendar = () => {
             const consultarDisponibilidad = async () => {
                 try {
                     const url = `${import.meta.env.VITE_BACKEND_URL}/turnos/ocupados/${profesional}/${fecha}`;
+                    const respuesta = await fetch(url);
                     const resultado = await respuesta.json();
                     setHorariosOcupados(resultado);
                 } catch (error) {
@@ -112,6 +113,8 @@ const useAgendar = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datosTurno)
             });
+
+            const resultado = await respuesta.json();
 
             // Evaluamos la respuesta del backend
             if (respuesta.ok) {
