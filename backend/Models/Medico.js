@@ -68,6 +68,6 @@ medicosSchema.methods.comprobarPassword = async function(passwordFormulario) {
     return await bcrypt.compare(passwordFormulario, this.password);
 };
 
-const Medico = mongoose.model("Medico", medicosSchema);
+const Medico = mongoose.models.Medico || mongoose.model('Medico', medicosSchema);
 
 export default Medico;
