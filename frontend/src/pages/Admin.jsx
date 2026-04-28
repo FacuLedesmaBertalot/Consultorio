@@ -7,6 +7,8 @@ const Admin = () => {
     const [turnos, setTurnos] = useState([]);
     const [cargando, setCargando] = useState(true);
 
+    const [filtroFecha, setFiltroFecha] = useState(new Date().toISOString().split('T')[0]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -69,13 +71,14 @@ const Admin = () => {
         return fechaTurno < hoy;
     };
 
+    const turnosAMostrar = filtroFecha ? turnos.filter(turno => turno.fecha === filtroFecha) : turnos;
+
     if (cargando) return <div className="text-center text-sky-600 font-bold mt-20">Cargando tu panel... ⏳</div>; 
 
 
-// ... (Asegúrate de tener la función esTurnoPasado definida antes del return, como te mostré en el mensaje anterior)
-
     return (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
             <div className="mb-10 flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-6 text-center sm:text-left">
                 {perfil.imagen ? (
                     <img src={perfil.imagen} alt="Perfil" className="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white" />
@@ -110,25 +113,48 @@ const Admin = () => {
                 </div>
             </div>
 
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span className='uppercase font-bold text-slate-700'>Filtrado por fecha</span>
+
+
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+                <input 
+                    type="date"
+                    className="flex-1 sm:w-48 p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm font-bold text-slate-600 transition-all"
+                    value={filtroFecha}
+                    onChange={ e => setFiltroFecha(e.target.value)}
+                />
+
+                {filtroFecha !== '' && (
+                    <button
+                        onClick={() => setFiltroFecha('')}
+                        className="bg-orange-50 text-orange-600 border border-orange-100 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase hover:bg-orange-600 hover:text-white transition-all shadow-sm animate-in fade-in zoom-in duration-200 hover:cursor-pointer"
+                    >
+                        Ver Todo
+                    </button>
+                )}
+            </div>
+            </div>
             <div className="bg-white shadow-xl rounded-3xl overflow-hidden border border-slate-100">
                 <div className="p-6 border-b border-slate-50 bg-slate-50/50 text-center sm:text-left">
-                    <h2 className="font-black text-slate-700 uppercase tracking-wide">Tus Próximos Pacientes</h2>
+                    <h2 className="font-black text-slate-700 uppercase tracking-wide">
+                        {filtroFecha ? `Pacientes del día ${filtroFecha}` : 'Todos los Pacientes'}
+                    </h2>
                 </div>
 
-                {turnos.length === 0 ? (
+                {turnosAMostrar.length === 0 ? (
                     <div className="text-center py-16 px-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 mx-auto text-slate-300 mb-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008z" />
-                        </svg>
-                        <p className="text-slate-500 font-bold text-lg">No tienes turnos agendados por el momento.</p>
-                        <p className="text-slate-400 text-sm mt-1">Comparte tu enlace para que tus pacientes comienzen a agendar.</p>
+                        <p className="text-slate-500 font-bold text-lg">No hay turnos para mostrar.</p>
+                        {filtroFecha && (
+                             <button onClick={() => setFiltroFecha('')} className="text-sky-600 underline text-sm mt-2 hover:cursor-pointer">Borrar filtro de fecha</button>
+                        )}
                     </div>
                 ) : (
                     <>
+                        {/* VISTA MOBILE */}
                         <div className="md:hidden divide-y divide-slate-100">
-                            {turnos.map((turno) => {
+                            {turnosAMostrar.map((turno) => {
                                 const pasado = esTurnoPasado(turno.fecha);
-
                                 return (
                                     <div key={turno._id} className={`p-5 flex flex-col gap-3 transition-all ${pasado ? 'opacity-60 bg-slate-50/80 grayscale' : ''}`}>
                                         <div className="flex justify-between items-start">
@@ -144,7 +170,6 @@ const Admin = () => {
                                             <div className="font-bold text-slate-700">{turno.paciente?.nombre || 'Sin nombre'}</div>
                                             <div className="text-xs text-slate-500 font-medium mt-1 flex justify-between">
                                                 <span>DNI: {turno.paciente?.dni || 'N/A'}</span>
-                                                <span className="italic text-slate-400 truncate ml-2">{turno.paciente?.email}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +177,7 @@ const Admin = () => {
                             })}
                         </div>
 
+                        {/* VISTA DESKTOP */}
                         <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
@@ -163,9 +189,8 @@ const Admin = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
-                                    {turnos.map((turno) => {
+                                    {turnosAMostrar.map((turno) => {
                                         const pasado = esTurnoPasado(turno.fecha);
-
                                         return (
                                             <tr key={turno._id} className={`group transition-colors ${pasado ? 'bg-slate-50/50 opacity-60' : 'hover:bg-sky-50/50'}`}>
                                                 <td className="px-6 py-5">
