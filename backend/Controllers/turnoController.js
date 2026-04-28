@@ -1,5 +1,5 @@
-import Turno from '../Models/Turno.js';
-import Medico from '../Models/Medico.js';
+import Turno from '../models/Turno.js';
+import Medico from '../models/Medico.js';
 import { emailNuevoTurno } from '../helpers/email.js';
 
 const obtenerHorariosOcupados = async (req, res) => {
@@ -43,4 +43,15 @@ const crearTurno = async (req, res) => {
     }
 };
 
-export { obtenerHorariosOcupados, crearTurno };
+
+const obtenerTurnosMedico = async (req, res) => {
+    try {
+        const turnos = await Turno.find({ medico: req.medico._id }).sort({ fecha: 1, horario: 1 });
+        res.json(turnos);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al obtener los turnos' });
+    }
+}
+
+export { obtenerHorariosOcupados, crearTurno, obtenerTurnosMedico };
