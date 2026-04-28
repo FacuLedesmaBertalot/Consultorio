@@ -1,5 +1,5 @@
-import Medico from "../Models/Medico.js";
-import Paciente from "../Models/Paciente.js";
+import Medico from "../models/Medico.js";
+import Paciente from "../models/Paciente.js";
 import { emailNuevoTurno } from "../helpers/email.js";
 
 const agregarPaciente = async (req, res) => {

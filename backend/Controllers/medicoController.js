@@ -1,4 +1,4 @@
-import Medico from "../Models/Medico.js";
+import Medico from "../models/Medico.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from '../helpers/generarJWT.js';
 import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
