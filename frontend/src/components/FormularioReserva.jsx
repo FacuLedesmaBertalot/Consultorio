@@ -1,8 +1,8 @@
 const FormularioReserva = ({ 
     especialidad, setEspecialidad, profesional, setProfesional,
-    fecha, setFecha, horario, setHorario, nombre, setNombre,
+    fecha, handleCambioFecha, horario, setHorario, nombre, setNombre, 
     dni, setDni, email, setEmail, medicos, horariosBase,
-    horariosOcupados, cargando, enviado, error, handleSubmit 
+    horariosOcupados, cargando, enviado, error, handleSubmit, fechaMinima 
 }) => {
     return (
         <div className='p-8 sm:p-10 lg:p-12 lg:w-[65%] xl:w-2/3 flex-1'>
@@ -38,10 +38,18 @@ const FormularioReserva = ({
                                 {medicos?.map(medico => <option key={medico._id} value={medico._id}>{medico.nombre}</option>)}
                             </select>
                         </div>
+                        
                         <div className="flex flex-col">
                             <label className="uppercase text-slate-500 text-[10px] font-bold mb-2">Fecha</label>
-                            <input type="date" className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none" value={fecha} onChange={e => setFecha(e.target.value)} />
+                            <input 
+                                type="date" 
+                                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-sky-500" 
+                                value={fecha} 
+                                onChange={e => handleCambioFecha(e.target.value)} 
+                                min={fechaMinima}
+                            />
                         </div>
+
                         <div className="flex flex-col">
                             <label className="uppercase text-slate-500 text-[10px] font-bold mb-2">Horario</label>
                             <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none" value={horario} onChange={e => setHorario(e.target.value)} disabled={!fecha || !profesional}>
