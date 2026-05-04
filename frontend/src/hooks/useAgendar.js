@@ -27,6 +27,32 @@ const useAgendar = () => {
     const [error, setError] = useState('');
 
     const [horariosOcupados, setHorariosOcupados] = useState([]);
+    const fechaMinima = new Date().toISOString().split('T')[0];
+
+    const esFinDeSemana = (fechaSeleccionada) => {
+        const fechaObj = new Date(`${fechaSeleccionada}T00:00:00`);
+        const diaSemana = fechaObj.getDay();
+        
+        return diaSemana === 0 || diaSemana === 6;
+    };
+
+    const handleCambioFecha = nuevaFecha => {
+        if (!nuevaFecha) {
+            setFecha('');
+            return;
+        }
+
+        if (esFinDeSemana(nuevaFecha)) {
+            setError('Atención de Lunes a Viernes. Por favor, elige otro día');
+            setFecha('');
+            setHorario('');
+            return;
+        }
+
+        setError('');
+        setFecha(nuevaFecha);
+        setHorario('');
+    }
 
     useEffect(() => {
         if (especialidad === '') {
@@ -146,7 +172,8 @@ const useAgendar = () => {
     return {
         especialidad, setEspecialidad,
         profesional, setProfesional,
-        fecha, setFecha,
+        fecha, 
+        handleCambioFecha,
         horario, setHorario,
         nombre, setNombre,
         dni, setDni,
@@ -157,7 +184,8 @@ const useAgendar = () => {
         cargando,
         enviado,
         error,
-        handleSubmit
+        handleSubmit,
+        fechaMinima
     };
 };
 
