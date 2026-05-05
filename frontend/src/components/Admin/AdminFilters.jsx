@@ -16,7 +16,7 @@ const AdminFilters = ({ filtroFecha, setFiltroFecha }) => {
                 {filtroFecha !== '' && (
                     <button
                         onClick={() => setFiltroFecha('')}
-                        className="bg-orange-50 text-orange-600 border border-orange-100 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase hover:bg-orange-600 hover:text-white transition-all shadow-sm"
+                        className="bg-orange-50 text-orange-600 border border-orange-100 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase hover:bg-orange-600 hover:text-white transition-all shadow-sm hover:cursor-pointer"
                     >
                         Ver Todo
                     </button>
