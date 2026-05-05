@@ -54,4 +54,28 @@ const obtenerTurnosMedico = async (req, res) => {
     }
 }
 
-export { obtenerHorariosOcupados, crearTurno, obtenerTurnosMedico };
+
+const eliminarTurno = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const turno = await Turno.findById(id);
+
+        if (!turno) {
+            return res.status(404).json({ msg: 'Turno no encontrado' });
+        }
+
+        if (turno.medico.toString() !== req.medico._id.toString() ) {
+            return res.status(401).json({ msg: 'No tienes permiso para eliminar este turno' });
+        }
+
+        await turno.deleteOne();
+        res.json({ msg: 'Turno eliminado correctamente' });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Hubo un error en el servidor al eliminar el turno' });
+    }
+};
+
+export { obtenerHorariosOcupados, crearTurno, obtenerTurnosMedico, eliminarTurno };
