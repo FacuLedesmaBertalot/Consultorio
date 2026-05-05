@@ -1,6 +1,6 @@
 import { esTurnoPasado } from "../../utils/helpers";
 
-const TurnosTable = ({ turnos, titulo, onLimpiarFiltro }) => {
+const TurnosTable = ({ turnos, titulo, onLimpiarFiltro, handleEliminarTurno }) => {
     if (turnos.length === 0) {
         return (
             <div className="text-center py-16 px-4">
@@ -20,19 +20,31 @@ const TurnosTable = ({ turnos, titulo, onLimpiarFiltro }) => {
                 {turnos.map((turno) => {
                     const pasado = esTurnoPasado(turno.fecha);
                     return (
-                        <div key={turno._id} className={`p-5 flex flex-col gap-3 transition-all ${pasado ? 'opacity-60 bg-slate-50/80 grayscale' : ''}`}>
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <div className={`font-bold text-lg ${pasado ? 'text-slate-500' : 'text-sky-900'}`}>{turno.horario} hs</div>
-                                    <div className="text-xs text-slate-400 font-bold uppercase">{turno.fecha}</div>
+                        <div key={turno._id} className={`p-5 flex flex-col transition-all ${pasado ? 'opacity-60 bg-slate-50/80 grayscale' : ''}`}>
+                            <div className="mb-3">
+                                <div className={`font-bold text-lg ${pasado ? 'text-slate-500' : 'text-sky-900'}`}>{turno.horario} hs</div>
+                                <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">{turno.fecha}</div>
+                            </div>
+                            
+                            <div className={`p-3 rounded-xl border ${pasado ? 'bg-transparent border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
+                                <div className="font-bold text-slate-700">{turno.paciente?.nombre || 'Sin nombre'}</div>
+                                <div className="text-xs text-slate-400 font-medium mt-1 flex justify-between">
+                                    <span>DNI: {turno.paciente?.dni || 'N/A'}</span>
                                 </div>
+                            </div>
+
+                            <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-100">
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${pasado ? 'bg-slate-200 text-slate-500' : 'bg-green-100 text-green-700'}`}>
                                     {pasado ? 'Finalizado' : 'Confirmado'}
                                 </span>
-                            </div>
-                            <div className={`p-3 rounded-xl border ${pasado ? 'bg-transparent border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
-                                <div className="font-bold text-slate-700">{turno.paciente?.nombre || 'Sin nombre'}</div>
-                                <div className="text-xs text-slate-400 font-medium">DNI: {turno.paciente?.dni || 'N/A'}</div>
+                                {!pasado && (
+                                    <button 
+                                        onClick={() => handleEliminarTurno(turno._id)}
+                                        className="text-[11px] font-bold text-red-500 hover:text-red-700 transition-colors uppercase tracking-wider"
+                                    >
+                                        Cancelar Turno
+                                    </button>
+                                )}
                             </div>
                         </div>
                     );
@@ -46,7 +58,7 @@ const TurnosTable = ({ turnos, titulo, onLimpiarFiltro }) => {
                             <th className="px-8 py-4 text-slate-500 font-bold uppercase text-[11px] tracking-wider whitespace-nowrap">Fecha y Hora</th>
                             <th className="px-8 py-4 text-slate-500 font-bold uppercase text-[11px] tracking-wider whitespace-nowrap">Paciente</th>
                             <th className="px-8 py-4 text-slate-500 font-bold uppercase text-[11px] tracking-wider whitespace-nowrap">Contacto</th>
-                            <th className="px-8 py-4 text-slate-500 font-bold uppercase text-[11px] tracking-wider text-center whitespace-nowrap">Estado</th>
+                            <th className="px-8 py-4 text-slate-500 font-bold uppercase text-[11px] tracking-wider text-center whitespace-nowrap">Estado / Acción</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -56,7 +68,6 @@ const TurnosTable = ({ turnos, titulo, onLimpiarFiltro }) => {
                             return (
                                 <tr key={turno._id} className={`group transition-colors ${pasado ? 'bg-slate-50/50 opacity-60' : 'hover:bg-sky-50/50'}`}>
                                     
-                                    {/* Aumentamos padding, centramos verticalmente (align-middle) y evitamos saltos de línea */}
                                     <td className="px-8 py-6 align-middle whitespace-nowrap">
                                         <div className={`font-bold text-lg ${pasado ? 'text-slate-500' : 'text-sky-900'}`}>{turno.horario} hs</div>
                                         <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">{turno.fecha}</div>
@@ -72,10 +83,20 @@ const TurnosTable = ({ turnos, titulo, onLimpiarFiltro }) => {
                                     </td>
                                     
                                     <td className="px-8 py-6 align-middle text-center whitespace-nowrap">
-                                        {/* Hice la "pastilla" de estado un poco más ancha con px-4 */}
-                                        <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm ${pasado ? 'bg-slate-200 text-slate-500' : 'bg-green-100 text-green-700'}`}>
-                                            {pasado ? 'Finalizado' : 'Confirmado'}
-                                        </span>
+                                        <div className="flex flex-col items-center justify-center gap-2.5">
+                                            <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm ${pasado ? 'bg-slate-200 text-slate-500' : 'bg-green-100 text-green-700'}`}>
+                                                {pasado ? 'Finalizado' : 'Confirmado'}
+                                            </span>
+                                            
+                                            {!pasado && (
+                                                <button 
+                                                    onClick={() => handleEliminarTurno(turno._id)}
+                                                    className="text-[10px] font-bold text-red-400 hover:text-red-600 transition-colors uppercase tracking-wider hover:cursor-pointer"
+                                                >
+                                                    Cancelar
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                     
                                 </tr>
