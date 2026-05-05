@@ -20,3 +20,18 @@ export const obtenerDatosAdmin = async (token) => {
         turnos: await resTurnos.json()
     };
 };
+
+
+export const eliminarTurnoAPI = async (id, token) => {
+    const config = {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
+    const respuesta = await fetch(`${VITE_BACKEND_URL}/turnos/${id}`, config);
+        if (!respuesta.ok) throw new Error('Error al eliminar el turno');
+    
+    return await respuesta.json();
+};
