@@ -1,8 +1,12 @@
+// Definimos la URL base una sola vez
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000/api";
+
 export const registrarMedicoAPI = async datosMedicos => {
     try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/medicos`;
+        // Usamos BASE_URL en lugar de import.meta.env...
+        const url = `${BASE_URL}/medicos`; 
         const respuesta = await fetch(url, {
-            method: 'Post',
+            method: 'POST', // Corregido a mayúsculas por convención
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosMedicos)
         });
@@ -16,7 +20,8 @@ export const registrarMedicoAPI = async datosMedicos => {
 
 export const loginMedicoAPI = async (credenciales) => {
     try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/medicos/login`;
+        // Usamos BASE_URL aquí también
+        const url = `${BASE_URL}/medicos/login`;
         const respuesta = await fetch(url, {
             method: 'POST',
             headers: {
@@ -32,7 +37,7 @@ export const loginMedicoAPI = async (credenciales) => {
             data: resultado
         }
     } catch (error) {
-        console.log("Errir eb loginMedicoAPI:", error);
+        console.log("Error en loginMedicoAPI:", error);
         return {
             ok: false,
             data: { msg: "Error de conexión con el servidor" }

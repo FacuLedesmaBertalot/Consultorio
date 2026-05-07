@@ -1,6 +1,8 @@
-const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+const URL_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000/api";
 
 export const obtenerDatosAdmin = async (token) => {
+
     const config = {
         headers: {
             "Content-Type": "application/json",
@@ -9,8 +11,8 @@ export const obtenerDatosAdmin = async (token) => {
     };
 
     const [resPerfil, resTurnos] = await Promise.all([
-        fetch(`${VITE_BACKEND_URL}/medicos/perfil`, config),
-        fetch(`${VITE_BACKEND_URL}/turnos`, config) 
+        fetch(`${URL_BASE}/medicos/perfil`, config),
+        fetch(`${URL_BASE}/turnos`, config)         
     ]);
 
     if (!resPerfil.ok || !resTurnos.ok) throw new Error('Error al obtener los datos');
@@ -21,7 +23,6 @@ export const obtenerDatosAdmin = async (token) => {
     };
 };
 
-
 export const eliminarTurnoAPI = async (id, token) => {
     const config = {
         method: 'DELETE',
@@ -30,8 +31,30 @@ export const eliminarTurnoAPI = async (id, token) => {
         }
     };
 
-    const respuesta = await fetch(`${VITE_BACKEND_URL}/turnos/${id}`, config);
-        if (!respuesta.ok) throw new Error('Error al eliminar el turno');
+    const respuesta = await fetch(`${URL_BASE}/turnos/${id}`, config);
+    if (!respuesta.ok) throw new Error('Error al eliminar el turno');
     
+    return await respuesta.json();
+};
+
+export const actualizarPerfilAPI = async (id, datosFormulario, token) => {
+    
+    console.log("Haciendo PUT a:", `${URL_BASE}/medicos/perfil/${id}`);
+
+    const config = {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        body: datosFormulario
+    };
+
+    const respuesta = await fetch(`${URL_BASE}/medicos/perfil/${id}`, config);
+    
+    if (!respuesta.ok) {
+        const errorData = await respuesta.json().catch(() => ({ msg: 'Error de conexión o ruta no encontrada' }));
+        throw new Error(errorData.msg || 'Error al actualizar perfil');
+    }
+
     return await respuesta.json();
 };

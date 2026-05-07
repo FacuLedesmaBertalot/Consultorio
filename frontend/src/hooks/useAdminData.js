@@ -59,6 +59,7 @@ export const useAdminData = () => {
 
     return { 
         perfil, 
+        setPerfil,
         turnos, 
         turnosAMostrar, 
         cargando, 

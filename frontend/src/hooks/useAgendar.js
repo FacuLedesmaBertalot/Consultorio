@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000/api";
+
 const useAgendar = () => {
 
     const HORARIOS_BASE = [
@@ -66,7 +68,7 @@ const useAgendar = () => {
             setError('');
 
             try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/medicos/especialidad/${especialidad}`;
+                const url = `${BASE_URL}/medicos/especialidad/${especialidad}`;
                 const respuesta = await fetch(url);
                 const resultado = await respuesta.json();
 
@@ -91,7 +93,7 @@ const useAgendar = () => {
         if (profesional && fecha) {
             const consultarDisponibilidad = async () => {
                 try {
-                    const url = `${import.meta.env.VITE_BACKEND_URL}/turnos/ocupados/${profesional}/${fecha}`;
+                    const url = `${BASE_URL}/turnos/ocupados/${profesional}/${fecha}`;
                     const respuesta = await fetch(url);
                     const resultado = await respuesta.json();
                     setHorariosOcupados(resultado);
@@ -109,7 +111,6 @@ const useAgendar = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validaciones
         if ([especialidad, profesional, fecha, horario, nombre, dni, email].includes('')) {
             setError('Todos los campos son obligatorios');
             return;
@@ -121,7 +122,6 @@ const useAgendar = () => {
             return;
         }
 
-        // Preparamos el envío
         setError('');
         setCargando(true);
 
@@ -133,7 +133,7 @@ const useAgendar = () => {
                 paciente: { nombre, dni, email }
             };
 
-            const url = `${import.meta.env.VITE_BACKEND_URL}/turnos`;
+            const url = `${BASE_URL}/turnos`;
             const respuesta = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -142,7 +142,6 @@ const useAgendar = () => {
 
             const resultado = await respuesta.json();
 
-            // Evaluamos la respuesta del backend
             if (respuesta.ok) {
                 setEnviado(true);
                 setEspecialidad('');
