@@ -198,15 +198,18 @@ const actualizarPerfil = async (req, res) => {
             return res.status(404).json({ msg: "Médico no encontrado" });
         }
 
+        if (medico._id.toString() !== req.medico._id.toString()) {
+            return res.status(401).json({ msg: "Acción no válida" });
+        }
+
         medico.nombre = req.body.nombre || medico.nombre;
         medico.telefono = req.body.telefono || medico.telefono;
         medico.especialidad = req.body.especialidad || medico.especialidad;
 
         if (req.body.email && req.body.email !== medico.email) {
             const existeEmail = await Medico.findOne({ email: req.body.email });
-
             if (existeEmail) {
-                return res.status(400).json({ msg: "Ese email ya está en uso por otro médico" });
+                return res.status(400).json({ msg: "Ese email ya está en uso" });
             }
             medico.email = req.body.email;
         }
@@ -217,12 +220,12 @@ const actualizarPerfil = async (req, res) => {
         }
 
         const medicoActualizado = await medico.save();
-
         res.json(medicoActualizado);
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ msg: "Hubo un error al actualizar el perfil" });}
+        res.status(500).json({ msg: "Hubo un error al actualizar el perfil" });
+    }
 }
 
 export {
