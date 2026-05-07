@@ -23,7 +23,7 @@ router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/publicos', obtenerMedicosPublicos);
 router.get('/especialidad/:especialidad', obtenerMedicosPorEspecialidad);
-router.post('/perfil/:id', upload.single('imagen'), actualizarPerfil);
+router.put('/perfil/:id', checkAuth, upload.single('imagen'), actualizarPerfil);
 
 // Rutas para el manejo de correos y contraseñas
 router.get('/confirmar/:token', confirmar);
