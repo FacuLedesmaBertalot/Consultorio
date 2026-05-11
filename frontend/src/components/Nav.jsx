@@ -9,9 +9,12 @@ const Nav = () => {
                     Vitae<span className="text-orange-600">Salud</span>
                 </Link>
 
+                {/* MENÚ DESKTOP */}
                 <div className="hidden md:flex items-center gap-6">
                     <Link to="/" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Inicio</Link>
                     <Link to="/agendar" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Agendar</Link>
+                    {/* NUEVO ENLACE DESKTOP */}
+                    <Link to="/sobre-nosotros" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Sobre Nosotros</Link>
                     <Link to="/login" className="bg-sky-100 text-sky-700 px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-widest hover:bg-sky-200 transition-all">
                         Acceso Médicos
                     </Link>
@@ -25,12 +28,17 @@ const Nav = () => {
                     </svg>
                 </label>
 
+                {/* MENÚ MOBILE */}
                 <div className="hidden peer-checked:flex flex-col md:hidden bg-white border-t border-slate-100 px-6 py-6 shadow-2xl absolute top-full left-0 w-full gap-5">
                     <Link to="/" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
                         Inicio
                     </Link>
                     <Link to="/agendar" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
                         Agendar Turno
+                    </Link>
+                    {/* NUEVO ENLACE MOBILE */}
+                    <Link to="/sobre-nosotros" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
+                        Sobre Nosotros
                     </Link>
                     <Link to="/login" className="bg-sky-100 text-sky-700 px-4 py-4 mt-2 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-sky-200 transition-all text-center">
                         Acceso Médicos
