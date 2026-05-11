@@ -8,6 +8,7 @@ import RutaProtegida from './layouts/RutaProtegida';
 import Home from './pages/Home';
 import Agendar from './pages/Agendar';
 import Especialistas from './pages/Especialistas';
+import SobreNosotros from './pages/SobreNosotros';
 
 // Páginas de Autenticación
 import Login from './pages/Login';
@@ -29,6 +30,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="agendar" element={<Agendar />} />
           <Route path="especialistas" element={<Especialistas />} />
+          <Route path="sobre-nosotros" element={<SobreNosotros />} />
         </Route>
 
         {/* ÁREA DE AUTENTICACIÓN: MÉDICOS */}
