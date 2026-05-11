@@ -4,6 +4,7 @@ import cors from "cors";
 import conectarDB from "./config/db.js";
 import medicoRoutes from './routes/medicoRoutes.js';
 import turnoRoutes from './routes/turnoRoutes.js';
+import testimonioRoutes from './routes/testimonioRoutes.js';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(cors(corsOptions));
 // --- RUTAS ---
 app.use('/api/medicos', medicoRoutes);
 app.use('/api/turnos', turnoRoutes);
+app.use('/api/testimonios', testimonioRoutes);
 
 // Definir el puerto (Hostinger asigna uno automáticamente, local usa 4000)
 const PORT = process.env.PORT || 4000;
