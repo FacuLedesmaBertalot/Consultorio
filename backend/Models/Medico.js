@@ -39,6 +39,11 @@ const medicosSchema = mongoose.Schema({
         trim: true,
         default: null
     },
+    rol: {
+        type: String,
+        default: 'medico', 
+        enum: ['medico', 'superadmin'] 
+    },
     token: {
         type: String,
         default: generarId
@@ -52,16 +57,14 @@ const medicosSchema = mongoose.Schema({
     timestamps: true
 });
 
-
 // Middleware para hashear la contraseña antes de guardar
 medicosSchema.pre('save', async function() {
-
     if (!this.isModified('password')) {
         return;
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-})
+});
 
 // Método para comprobar el password en el Login
 medicosSchema.methods.comprobarPassword = async function(passwordFormulario) {
