@@ -130,6 +130,7 @@ const Registrar = () => {
                                     className="border border-slate-200 w-full p-2.5 mt-1 bg-slate-50 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none transition-all shadow-sm text-slate-500"
                                 >
                                     <option value="">-- Elige --</option>
+                                    <option value="administracion">Administración</option>
                                     <option value="clinica">Clínica Médica</option>
                                     <option value="pediatria">Pediatría</option>
                                     <option value="cardiologia">Cardiología</option>
