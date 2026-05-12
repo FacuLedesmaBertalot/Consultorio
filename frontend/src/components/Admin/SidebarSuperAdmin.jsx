@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
-    // Estado para controlar si el menú está abierto o cerrado en móviles
+const SidebarSuperAdmin = () => {
     const [menuAbierto, setMenuAbierto] = useState(false);
     
     const location = useLocation();
@@ -16,21 +15,20 @@ const Sidebar = () => {
     const linkClase = (path) => 
         `flex items-center gap-4 p-3 rounded-xl transition-all font-bold uppercase text-sm ${
             location.pathname === path 
-            ? 'bg-sky-600 text-white shadow-lg shadow-sky-200' 
-            : 'text-slate-500 hover:bg-sky-50 hover:text-sky-600'
+            ? 'bg-slate-800 text-white shadow-lg shadow-slate-300' 
+            : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'
         }`;
 
     return (
         <>
-            {/* VISTA MÓVIL: Barra Superior con Logo y Botón Hamburguesa */}
             <div className="md:hidden flex justify-between items-center bg-white p-4 border-b border-slate-100 sticky top-0 z-20 shadow-sm">
-                <h1 className="text-xl font-black text-sky-700">
+                <h1 className="text-xl font-black text-slate-800">
                     Vitae<span className="text-orange-600">Salud</span>
                 </h1>
                 
                 <button 
                     onClick={() => setMenuAbierto(true)} 
-                    className="p-2 text-slate-500 hover:text-sky-600 transition-colors bg-slate-50 rounded-lg"
+                    className="p-2 text-slate-500 hover:text-slate-800 transition-colors bg-slate-50 rounded-lg"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -38,7 +36,6 @@ const Sidebar = () => {
                 </button>
             </div>
 
-            {/* VISTA MÓVIL: Fondo Oscuro (Backdrop) cuando el menú está abierto */}
             {menuAbierto && (
                 <div 
                     className="fixed inset-0 bg-black/40 z-30 md:hidden backdrop-blur-sm transition-opacity"
@@ -46,7 +43,6 @@ const Sidebar = () => {
                 />
             )}
 
-            {/* SIDEBAR PRINCIPAL (Cajón lateral en móvil, fijo en escritorio) */}
             <aside className={`
                 fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-slate-100 p-6 flex flex-col justify-between 
                 transition-transform duration-300 ease-in-out
@@ -55,16 +51,14 @@ const Sidebar = () => {
             `}>
                 
                 <div>
-                    {/* LOGO Y BOTÓN CERRAR (MÓVIL) */}
                     <div className="mb-10 px-2 flex justify-between items-center">
                         <div>
-                            <h1 className="text-2xl font-black text-sky-700">
+                            <h1 className="text-2xl font-black text-slate-800">
                                 Vitae<span className="text-orange-600">Salud</span>
                             </h1>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Panel Médico</p>
+                            <p className="text-[10px] text-orange-500 font-bold uppercase tracking-widest">Panel Maestro</p>
                         </div>
                         
-                        {/* Botón "X" solo visible en celulares */}
                         <button 
                             className="md:hidden p-2 text-slate-400 hover:text-red-500 bg-slate-50 rounded-lg transition-colors" 
                             onClick={() => setMenuAbierto(false)}
@@ -75,23 +69,20 @@ const Sidebar = () => {
                         </button>
                     </div>
 
-                    {/* MENÚ DE NAVEGACIÓN */}
                     <nav className="flex flex-col gap-2">
-                        {/* Le agregamos onClick a los Links para que el menú se cierre al cambiar de página en el celular */}
-                        <Link to="/admin" onClick={() => setMenuAbierto(false)} className={linkClase('/admin')}>
+                        <Link to="/admin/maestro" onClick={() => setMenuAbierto(false)} className={linkClase('/admin/maestro')}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                             </svg>
-                            Mis Turnos
+                            Panel General
                         </Link>
 
-                        <Link to="/admin/perfil" onClick={() => setMenuAbierto(false)} className={linkClase('/admin/perfil')}>
+                        <Link to="/" onClick={() => setMenuAbierto(false)} className="flex items-center gap-4 p-3 rounded-xl transition-all font-bold uppercase text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-800 mt-4 border border-slate-100">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
                             </svg>
-                            Mi Perfil
+                            Ver Sitio Web
                         </Link>
-
                     </nav>
                 </div>
 
@@ -109,4 +100,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+export default SidebarSuperAdmin;

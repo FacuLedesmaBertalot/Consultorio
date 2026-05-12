@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom'; // <-- 1. NUEVO IMPORT
 import { useAdminData } from '../hooks/useAdminData';
 import AdminHeader from '../components/Admin/AdminHeader';
 import AdminStats from '../components/Admin/AdminStats';
@@ -13,8 +14,12 @@ const Admin = () => {
 
     if (cargando) return <div className="text-center mt-20 font-bold">Cargando panel...</div>;
 
+    if (perfil?.rol === 'superadmin') {
+        return <Navigate to="/admin/maestro" />;
+    }
+
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fade-in">
             <AdminHeader perfil={perfil} />
             <AdminStats turnosTotales={turnos.length} email={perfil.email} />
             <AdminFilters filtroFecha={filtroFecha} setFiltroFecha={setFiltroFecha} />
@@ -24,7 +29,6 @@ const Admin = () => {
                     turnos={turnosAMostrar} 
                     titulo={filtroFecha ? `Turnos del ${filtroFecha}` : "Todos los turnos"}
                     onLimpiarFiltro={() => setFiltroFecha('')}
-                    
                     handleEliminarTurno={pedirConfirmacion} 
                 />
             </div>

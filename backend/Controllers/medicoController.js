@@ -74,6 +74,7 @@ const autenticar = async (req, res) => {
             _id: usuario._id,
             nombre: usuario.nombre,
             email: usuario.email,
+            rol: usuario.rol,
             token: generarJWT(usuario._id)
         });
 
@@ -228,6 +229,54 @@ const actualizarPerfil = async (req, res) => {
     }
 }
 
+
+// FUNCIONES EXCLUSIVAS DEL SUPERADMIN
+
+
+const adminObtenerMedicos = async (req, res) => {
+    try {
+        const medicos = await Medico.find({ rol: 'medico' }).select('-password -token');
+        res.json(medicos);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Error al obtener médicos" });
+    }
+};
+
+const adminEliminarMedico = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const medico = await Medico.findById(id);
+        if (!medico) {
+            return res.status(404).json({ msg: "Médico no encontrado" });
+        }
+        
+        await medico.deleteOne();
+        res.json({ msg: "Médico eliminado correctamente del sistema" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Error al eliminar médico" });
+    }
+};
+
+const adminAprobarMedico = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const medico = await Medico.findById(id);
+        if (!medico) {
+            return res.status(404).json({ msg: "Médico no encontrado" });
+        }
+        
+        medico.confirmado = !medico.confirmado;
+        await medico.save();
+        
+        res.json({ msg: medico.confirmado ? "Médico Aprobado" : "Acceso Revocado" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Error al cambiar estado del médico" });
+    }
+};
+
 export {
     registrar,
     autenticar,
@@ -238,5 +287,8 @@ export {
     nuevoPassword,
     obtenerMedicosPublicos,
     obtenerMedicosPorEspecialidad,
-    actualizarPerfil
+    actualizarPerfil,
+    adminObtenerMedicos,
+    adminEliminarMedico,
+    adminAprobarMedico
 };
