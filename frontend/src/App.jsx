@@ -18,6 +18,7 @@ import ConfirmarCuenta from './pages/ConfirmarCuenta';
 // Páginas privadas
 import Admin from './pages/Admin';
 import EditarPerfil from './pages/EditarPerfil';
+import SuperAdmin from './pages/SuperAdmin';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path="/admin" element={<RutaProtegida />}>
 
           <Route index element={<Admin />} />
+          <Route path="maestro" element={<SuperAdmin />} />
           
           <Route path="perfil" element={<EditarPerfil />} />
         </Route>
