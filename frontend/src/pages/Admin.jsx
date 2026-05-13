@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'; // <-- 1. NUEVO IMPORT
+import { Navigate } from 'react-router-dom';
 import { useAdminData } from '../hooks/useAdminData';
 import AdminHeader from '../components/Admin/AdminHeader';
 import AdminStats from '../components/Admin/AdminStats';
