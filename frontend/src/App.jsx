@@ -14,6 +14,8 @@ import SobreNosotros from './pages/SobreNosotros';
 import Login from './pages/Login';
 import Registrar from './pages/Registrar';
 import ConfirmarCuenta from './pages/ConfirmarCuenta';
+import OlvidePassword from './pages/OlvidePassword';
+import NuevoPassword from './pages/NuevoPassword';
 
 // Páginas privadas
 import Admin from './pages/Admin';
@@ -38,6 +40,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="/confirmar/:id" element={<ConfirmarCuenta />} />
+        <Route path="/olvide-password" element={<OlvidePassword />} />
+        <Route path="/olvide-password/:token" element={<NuevoPassword />} />
 
         {/* ÁREA PRIVADA: PANEL DE ADMINISTRACIÓN (Protegida por Token) */}
         <Route path="/admin" element={<RutaProtegida />}>
