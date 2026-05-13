@@ -87,10 +87,11 @@ const autenticar = async (req, res) => {
 
 const confirmar = async (req, res) => {
     const { token } = req.params;
+    
     const usuarioConfirmar = await Medico.findOne({ token });
 
     if (!usuarioConfirmar) {
-        const error = new Error('Token no válido');
+        const error = new Error('Token no válido o cuenta ya confirmada');
         return res.status(400).json({ msg: error.message });
     }
 
@@ -98,10 +99,13 @@ const confirmar = async (req, res) => {
         usuarioConfirmar.token = null;
         usuarioConfirmar.confirmado = true;
         await usuarioConfirmar.save();
+        
+        console.log(`Usuario ${usuarioConfirmar.nombre} confirmado!`);
         res.json({ msg: 'Usuario Confirmado Correctamente'});
 
     } catch (error) {
         console.log(error);
+        res.status(500).json({ msg: "Error en el servidor" });
     }
 }
 

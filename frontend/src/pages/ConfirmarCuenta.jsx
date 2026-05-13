@@ -1,42 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useConfirmarCuenta } from '../hooks/useConfirmarCuenta';
 
 const ConfirmarCuenta = () => {
-
-    const [cuentaConfirmada, setCuentaConfirmada] = useState(false);
-    const [cargando, setCargand] = useState(true);
-    const [alerta, setAlerta] = useState({ msg: '', error: false });
-
-    const params = useParams();
-    const { id } = params;
-
-    const llamado = useRef(false);
-
-    useEffect(() => {
-        if (llamado.current) return;
-        llamado.current = true;
-
-        const confirmarCuenta = async () => {
-            try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/medicos/confirmar/${id}`;
-                const respuesta = await fetch(url);
-                const resultado = await respuesta.json();
-
-                if (respuesta.ok) {
-                    setCuentaConfirmada(true);
-                    setAlerta({ msg: resultado.msg || 'Cuenta confirmada correctamente', error: false });
-                } else {
-                    setAlerta({ msg: resultado.msg || 'Error al confirmar la cuenta', error: true });
-                }
-            } catch (error) {
-                console.log(error);
-                setAlerta({ msg: 'Error de conexión con el servidor', error: true });
-            } finally {
-                setCargando(false);
-            }
-        };
-        confirmarCuenta();
-    }, [id]);
+    const { cuentaConfirmada, cargando, alerta } = useConfirmarCuenta();
 
     return (
         <div className="flex flex-col md:flex-row min-h-screen w-full bg-white">
