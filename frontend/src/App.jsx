@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Agendar from './pages/Agendar';
 import Especialistas from './pages/Especialistas';
 import SobreNosotros from './pages/SobreNosotros';
+import FAQ from './pages/FAQ';
 
 // Páginas de Autenticación
 import Login from './pages/Login';
@@ -34,6 +35,7 @@ function App() {
           <Route path="agendar" element={<Agendar />} />
           <Route path="especialistas" element={<Especialistas />} />
           <Route path="sobre-nosotros" element={<SobreNosotros />} />
+          <Route path="faq" element={<FAQ /> } />
         </Route>
 
         {/* ÁREA DE AUTENTICACIÓN: MÉDICOS */}

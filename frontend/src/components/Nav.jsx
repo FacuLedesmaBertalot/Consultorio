@@ -12,12 +12,17 @@ const Nav = () => {
                 {/* MENÚ DESKTOP */}
                 <div className="hidden md:flex items-center gap-6">
                     <Link to="/" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Inicio</Link>
+
                     <Link to="/agendar" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Agendar</Link>
-                    {/* NUEVO ENLACE DESKTOP */}
+
                     <Link to="/sobre-nosotros" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">Sobre Nosotros</Link>
+
+                    <Link to="/faq" className="text-slate-600 hover:text-sky-700 font-semibold transition-colors">FAQ</Link>
+
                     <Link to="/login" className="bg-sky-100 text-sky-700 px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-widest hover:bg-sky-200 transition-all">
                         Acceso Médicos
                     </Link>
+
                 </div>
 
                 <input type="checkbox" id="menu-toggle" className="hidden peer" />
@@ -33,13 +38,19 @@ const Nav = () => {
                     <Link to="/" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
                         Inicio
                     </Link>
+
                     <Link to="/agendar" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
                         Agendar Turno
                     </Link>
-                    {/* NUEVO ENLACE MOBILE */}
+
                     <Link to="/sobre-nosotros" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
                         Sobre Nosotros
                     </Link>
+
+                    <Link to="/faq" className="text-slate-600 hover:text-sky-700 font-semibold text-lg transition-colors">
+                        Preguntas Frecuentes
+                    </Link>
+                    
                     <Link to="/login" className="bg-sky-100 text-sky-700 px-4 py-4 mt-2 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-sky-200 transition-all text-center">
                         Acceso Médicos
                     </Link>
