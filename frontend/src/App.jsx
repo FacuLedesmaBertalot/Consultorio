@@ -10,6 +10,7 @@ import Agendar from './pages/Agendar';
 import Especialistas from './pages/Especialistas';
 import SobreNosotros from './pages/SobreNosotros';
 import FAQ from './pages/FAQ';
+import CancelarTurno from './pages/CancelarTurno';
 
 // Páginas de Autenticación
 import Login from './pages/Login';
@@ -37,6 +38,9 @@ function App() {
           <Route path="sobre-nosotros" element={<SobreNosotros />} />
           <Route path="faq" element={<FAQ /> } />
         </Route>
+
+        {/* ÁREA PÚBLICA: ACCIONES INDEPENDIENTES */}
+        <Route path="/cancelar-turno" element={<CancelarTurno />} />
 
         {/* ÁREA DE AUTENTICACIÓN: MÉDICOS */}
         <Route path="/login" element={<Login />} />
