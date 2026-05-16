@@ -18,6 +18,10 @@ const turnoSchema = mongoose.Schema({
         nombre: { type: String, required: true},
         dni: { type: String, required: true},
         email: { type: String, required: true}
+    },
+    tokenCancelacion: {
+        type: String,
+        unique: true
     }
 }, { timestamps: true});
 
