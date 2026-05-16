@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import Turno from '../models/Turno.js';
 import Medico from '../models/Medico.js';
 import { emailNuevoTurno } from '../helpers/email.js';
@@ -17,7 +18,12 @@ const obtenerHorariosOcupados = async (req, res) => {
 
 const crearTurno = async (req, res) => {
     try {
-        const turno = new Turno(req.body);
+        const codigoHex = crypto.randomBytes(32).toString('hex');
+
+        const turno = new Turno({
+            ...req.body,
+            tokenCancelacion: codigoHex
+        });
         const turnoGuardado = await turno.save();
 
         const medicoEncontrado = await Medico.findById(req.body.medico);
@@ -29,7 +35,8 @@ const crearTurno = async (req, res) => {
                 medico: medicoEncontrado.nombre,
                 especialidad: medicoEncontrado.especialidad || "Atención Médica",
                 fecha: req.body.fecha,
-                hora: req.body.horario
+                hora: req.body.horario,
+                tokenCancelacion: turnoGuardado.tokenCancelacion
             });
         } catch (errorEmail) {
             console.log("Error enviando el email de confirmación:", errorEmail);
@@ -78,4 +85,28 @@ const eliminarTurno = async (req, res) => {
     }
 };
 
-export { obtenerHorariosOcupados, crearTurno, obtenerTurnosMedico, eliminarTurno };
+const cancelarTurnoPaciente = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        if (!token) {
+            return res.status(400).json({ msg: 'Código de cancelación requerido.' });
+        }
+
+        const turno = await Turno.findOne({ tokenCancelacion: token });
+
+        if (!turno) {
+            return res.status(404).json({ msg: 'El enlace de cancelación es inválido o ya expiró.' });
+        }
+
+        await turno.deleteOne();
+        
+        res.json({ msg: 'Turno cancelado correctamente' });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Hubo un error en el servidor al procesar la cancelación' });
+    }
+};
+
+export { obtenerHorariosOcupados, crearTurno, obtenerTurnosMedico, eliminarTurno, cancelarTurnoPaciente };
