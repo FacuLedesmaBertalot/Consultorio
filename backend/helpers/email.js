@@ -79,8 +79,10 @@ export const emailOlvidePassword = async (datos) => {
 
 
 export const emailNuevoTurno = async (datos) => {
-    const { email, nombre, medico, especialidad, fecha, hora } = datos;
+    const { email, nombre, medico, especialidad, fecha, hora, tokenCancelacion } = datos;
     const transport = crearTransporte();
+
+    const urlCancelacion = `${process.env.FRONTEND_URL}/cancelar-turno?token=${tokenCancelacion}`;
 
     const info = await transport.sendMail({
         from: `"Vitae Salud" <${process.env.EMAIL_USER}>`,
@@ -109,7 +111,12 @@ export const emailNuevoTurno = async (datos) => {
                     
                     <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
                     
-                    <p style="font-size: 13px; color: #64748b; text-align: center;">Si necesitas cancelar o reprogramar, por favor comunícate con nosotros.<br/>Atentamente, el equipo del Consultorio Médico.</p>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">¿No podés asistir? Por favor, cancelá tu cita para liberar el horario.</p>
+                        <a href="${urlCancelacion}" style="background-color: #ef4444; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">Cancelar Cita</a>
+                    </div>
+                    
+                    <p style="font-size: 13px; color: #94a3b8; text-align: center; margin-top: 30px;">Atentamente, el equipo del Consultorio Médico.</p>
                 </div>
             </div>
         `,
