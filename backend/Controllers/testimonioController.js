@@ -1,4 +1,4 @@
-import Testimonio from "../models/Testimonio.js";
+import Testimonio from "../Models/Testimonio.js";
 
 
 // Rutas Públicas
