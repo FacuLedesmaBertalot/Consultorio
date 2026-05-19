@@ -5,7 +5,7 @@ import {
     obtenerTestimoniosAdmin,
     cambiarEstadoTestimonio,
     eliminarTestimonio
-} from '../controllers/testimonioController.js';
+} from '../Controllers/testimonioController.js';
 import checkAuth from '../middleware/authMiddleware.js';
 
 const router = express.Router();

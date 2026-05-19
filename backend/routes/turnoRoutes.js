@@ -5,7 +5,7 @@ import {
     obtenerTurnosMedico, 
     eliminarTurno,
     cancelarTurnoPaciente
-} from '../controllers/turnoController.js';
+} from '../Controllers/turnoController.js';
 import checkAuth  from '../middleware/authMiddleware.js';
 
 const router = express.Router();

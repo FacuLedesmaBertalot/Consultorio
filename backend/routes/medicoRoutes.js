@@ -17,7 +17,7 @@ import {
     adminObtenerMedicos,
     adminEliminarMedico,
     adminAprobarMedico
-} from '../controllers/medicoController.js';
+} from '../Controllers/medicoController.js';
 
 
 const router = express.Router();
