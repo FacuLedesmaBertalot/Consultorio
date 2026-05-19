@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ObrasSocialesCarousel from '../components/ObraSocialCarrousel';
+import EspecialidadesDestacadas from '../components/EspecialidadesDestacadas';
 
 const Home = () => {
   return (
@@ -62,6 +63,8 @@ const Home = () => {
         </section>
 
         <ObrasSocialesCarousel />
+
+        <EspecialidadesDestacadas />
 
 
 
