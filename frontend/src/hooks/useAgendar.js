@@ -14,7 +14,9 @@ const useAgendar = () => {
     const location = useLocation();
     const datosPrevios = location.state || {};
 
-    const [especialidad, setEspecialidad] = useState(datosPrevios.especialidadPrevia || '');
+    const [especialidad, setEspecialidad] = useState(
+    datosPrevios.especialidadElegida || datosPrevios.especialidadPrevia || ''
+    );
     const [profesional, setProfesional] = useState(datosPrevios.profesionalPrevio || '');
     const [fecha, setFecha] = useState('');
     const [horario, setHorario] = useState('');
