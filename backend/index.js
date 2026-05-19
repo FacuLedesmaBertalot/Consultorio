@@ -1,5 +1,7 @@
-import express from "express";
 import dotenv from 'dotenv';
+dotenv.config();
+
+import express from "express";
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import medicoRoutes from './routes/medicoRoutes.js';
@@ -7,12 +9,7 @@ import turnoRoutes from './routes/turnoRoutes.js';
 import testimonioRoutes from './routes/testimonioRoutes.js';
 
 const app = express();
-
-// Permitir leer datos en formato JSON
 app.use(express.json());
-
-// Cargar variables de entorno ANTES de conectar la DB
-dotenv.config();
 
 // Conectar a la base de datos
 conectarDB();
@@ -25,8 +22,6 @@ const dominiosPermitidos = [
 
 const corsOptions = {
     origin: function(origin, callback) {
-        // !origin permite peticiones directas (Postman, navegador, etc.)
-        // dominiosPermitidos verifica que la petición venga de tu React
         if (!origin || dominiosPermitidos.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
@@ -42,10 +37,8 @@ app.use('/api/medicos', medicoRoutes);
 app.use('/api/turnos', turnoRoutes);
 app.use('/api/testimonios', testimonioRoutes);
 
-// Definir el puerto (Hostinger asigna uno automáticamente, local usa 4000)
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Servidor Funcionando en el puerto ${PORT}`);
 });
-
