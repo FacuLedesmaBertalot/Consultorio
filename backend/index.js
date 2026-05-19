@@ -32,7 +32,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// --- RUTAS ---
+// --- RUTA DE PRUEBA ---
+app.get('/ping', (req, res) => {
+    res.send('API del consultorio viva y funcionando 🚀');
+});
+
+// --- RUTAS PRINCIPALES ---
 app.use('/api/medicos', medicoRoutes);
 app.use('/api/turnos', turnoRoutes);
 app.use('/api/testimonios', testimonioRoutes);
