@@ -78,7 +78,7 @@ const EspecialidadesDestacadas = () => {
             id: 7,
             nombre: "Oftalmología",
             descripcion: "Cuidado integral de tu visión, estudios diagnósticos y tratamientos oculares.",
-            valorSelect: "oftamologia",
+            valorSelect: "oftalmologia",
             link: "/agendar",
             icono: (
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
