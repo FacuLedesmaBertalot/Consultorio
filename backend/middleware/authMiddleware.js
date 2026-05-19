@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Medico from '../models/Medico.js';
+import Medico from '../Models/Medico.js';
 
 const checkAuth = async (req, res, next) => {
     let token;
