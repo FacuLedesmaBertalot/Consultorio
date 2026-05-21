@@ -20,7 +20,6 @@ export const emailRegistro = async (datos) => {
     const info = await transport.sendMail({
         from: `"Vitae Salud" <${process.env.EMAIL_USER}>`, 
         to: email,
-        bcc: process.env.EMAIL_USER,
         subject: "Confirma tu Cuenta en el Consultorio",
         html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
@@ -52,7 +51,6 @@ export const emailOlvidePassword = async (datos) => {
     const info = await transport.sendMail({
         from: `"Vitae Salud" <${process.env.EMAIL_USER}>`,
         to: email,
-        bcc: process.env.EMAIL_USER,
         subject: "Reestablece tu Contraseña",
         text: "Reestablece tu Contraseña",
         html: `
@@ -87,7 +85,6 @@ export const emailNuevoTurno = async (datos) => {
     const info = await transport.sendMail({
         from: `"Vitae Salud" <${process.env.EMAIL_USER}>`,
         to: email,
-        bcc: process.env.EMAIL_USER,
         subject: "Confirmación de tu Turno Médico",
         text: "Confirmación de tu Turno Médico",
         html: `
